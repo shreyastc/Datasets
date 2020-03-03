@@ -1,2 +1,2 @@
 # Datasets
-Sample data set files to work on with for visualization
+Sample data sets and jupyter notebook files to work on with 
