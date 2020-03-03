@@ -1,0 +1,30 @@
+import cv2
+#import  imutils
+
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+#img = cv2.imread('E:\OpenCV\deepika_padukone.jpg')
+vid = cv2.VideoCapture(0)
+# Resize the image - change width to 500
+#img = imutils.resize(img, width=500)
+while 1:
+    ret, img = vid.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+    for (x,y,w,h) in faces:
+        cv2.rectangle(img,(x,y),(x+w,y+h),(255,255,255),1)
+        roi_gray = gray[y:y+h, x:x+w]
+        roi_color = img[y:y+h, x:x+w]
+        
+        eyes = eye_cascade.detectMultiScale(roi_gray, 1.3,5)
+        for (ex,ey,ew,eh) in eyes:
+            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(255,255,255),2)
+
+    cv2.imshow('img',img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):  # press q to quit
+        break
+
+vid.release()
+cv2.destroyAllWindows()
